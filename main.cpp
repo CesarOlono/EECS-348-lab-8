@@ -4,6 +4,27 @@
 #include <string>
 using namespace std;
 
+bool isValid(string s) { //takes the text s and answers true or false
+    if (s.empty()) { //returns false if string is empty
+	return false;
+    }
+
+    int i = 0; //makes i the position in the string the code looks at
+    if (s[0] == '+' || s[0] == '-') { //checks if the first character is a sign
+	i = 1; //if it is then it skips then starts at position 1
+    }
+
+    int digits = 0; //counter for number of digits
+    while (i < s.size() && s[i] >= '0' && s[i] <= '9') { //loop runs as long as it doesnt run off end, at least the number is at 0 through 9
+	i++; //moves to next character
+	digits++; //counts each digit passed
+    }
+    if (digit == 0) { //returns false if no digits found like A and NaN
+	return false;
+    }
+    return true;
+}
+
 int main(){
     string filename; //Makes variable to hold the text
     cout << "Enter file name: "; //prints question, then cin stores the input in filename
