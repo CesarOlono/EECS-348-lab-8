@@ -19,10 +19,27 @@ bool isValid(string s) { //takes the text s and answers true or false
 	i++; //moves to next character
 	digits++; //counts each digit passed
     }
-    if (digit == 0) { //returns false if no digits found like A and NaN
+    if (digits == 0) { //returns false if no digits found like A and NaN
 	return false;
     }
-    return true;
+    if (i == s.size()) {
+	return true;
+    }
+    if (s[i] == '.') {
+        i++;
+    } else {
+	return false;
+    }
+
+    digits = 0;
+    while (i < s.size() && s[i] >= '0' && s[i] <= '9') {
+	i++;
+	digits++;
+    }
+    if (digits == 0) {
+	return false;
+    }
+    return i == s.size(); //gives true when i reached the end and false when it didn't
 }
 
 int main(){
@@ -44,6 +61,15 @@ int main(){
 	if (!(iss >> a >> b) || (iss >> extra)) { //checks if enough words are read
 	    cout << "line " << lineNum << ": ERROR: expected exactly two numbers" << endl;
 	    continue; //skips the rest and continues to the next line of the file
+	}
+	bool okA = isValid(a); //calls the function and stores the trur or false answer
+	bool okB = isValid(b);
+	if (!okA || !okB) { //checks if either one is invalid
+	    cout << "line " << lineNum << ": ERROR: invalid number";
+	    if (!okA) cout << " \"" << a << "\""; //adds token in quotes only if it's invalid
+	    if (!okB) cout << " \"" << b << "\"";
+	    cout << endl; //finally ends line
+	    continue; //skips to next line
 	}
 	cout << "line " << lineNum << ": " << a << " and " << b << endl;
     }
