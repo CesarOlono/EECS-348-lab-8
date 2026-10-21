@@ -42,6 +42,38 @@ bool isValid(string s) { //takes the text s and answers true or false
     return i == s.size(); //gives true when i reached the end and false when it didn't
 }
 
+void split(string s, bool &neg, string &whole, string &frac) {
+    neg = (s[0] == '-');
+
+    int start = 0;
+    if (s[0] == '+' || s[0] == '-') {
+	start = 1;
+    }
+    size_t dot = s.find('.');
+    if (dot == string::npos) {
+	whole = s.substr(start);
+        frac = "";
+    } else {
+	whole = s.substr(start, dot - start);
+	frac = s.substr(dot + 1);
+    }
+}
+
+void align(string &wholeA, string &fracA, string &wholeB, string &fracB) {
+    while (fracA.size() < fracB.size()) {
+	fracA += "0";
+    }
+    while (fracB.size() < fracA.size()) {
+	fracB += "0";
+    }
+    while(wholeA.size() < wholeB.size()) {
+	wholeA = "0" + wholeA;
+    }
+    while(wholeB.size() < wholeA.size()) {
+        wholeB = "0" + wholeB;
+    }
+}
+
 int main(){
     string filename; //Makes variable to hold the text
     cout << "Enter file name: "; //prints question, then cin stores the input in filename
@@ -71,6 +103,11 @@ int main(){
 	    cout << endl; //finally ends line
 	    continue; //skips to next line
 	}
+	bool negA, negB;
+	string wholeA, fracA, wholeB, fracB;
+	split(a, negA, wholeA, fracA);
+	split(b, negB, wholeB, fracB);
+	align(wholeA, fracA, wholeB, fracB);
 	cout << "line " << lineNum << ": " << a << " and " << b << endl;
     }
 }
