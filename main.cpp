@@ -74,6 +74,21 @@ void align(string &wholeA, string &fracA, string &wholeB, string &fracB) {
     }
 }
 
+string addDigits(string x, string y) {
+    string result = "";
+    int carry = 0;
+    for (int i = x.size() - 1; i >= 0; i--) {
+	int sum = (x[i] - '0') + (y[i] - '0') + carry;
+	int digit = sum % 10;
+	carry = sum / 10;
+	result = string(1, (char)('0' + digit)) + result;
+    }
+    if (carry == 1) {
+	result = "1" + result;
+    }
+    return result;
+}
+
 int main(){
     string filename; //Makes variable to hold the text
     cout << "Enter file name: "; //prints question, then cin stores the input in filename
@@ -108,6 +123,21 @@ int main(){
 	split(a, negA, wholeA, fracA);
 	split(b, negB, wholeB, fracB);
 	align(wholeA, fracA, wholeB, fracB);
-	cout << "line " << lineNum << ": " << a << " and " << b << endl;
+	string x = wholeA + fracA;
+	string y = wholeB + fracB;
+	int fracLen = fracA.size();
+
+	if (negA == negB) {
+	    string sum = addDigits(x, y);
+            if (fracLen > 0) {
+                sum.insert(sum.size() - fracLen, ".");
+            }
+            if (negA) {
+                sum = "-" + sum;
+            }
+            cout << "line " << lineNum << ": " << a << " + " << b << " = " << sum << endl;
+        } else {
+            cout << "line " << lineNum << ": " << a << " and " << b << endl;
+        }
     }
 }
